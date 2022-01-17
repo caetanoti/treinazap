@@ -1,9 +1,7 @@
-name: TreinzaZAP-PRD PARA S3
+name: Deploy-TreinzaZAP-PRD PARA S3
 
 on:
-  push:
-    branches: 
-        - master  
+ wokflow_dispatch:  
 
 
 jobs:
