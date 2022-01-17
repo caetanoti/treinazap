@@ -1,7 +1,7 @@
 name: Deploy-TreinzaZAP-PRD PARA S3
 
 on:
- wokflow_dispatch:  
+ workflow_dispatch:  
 
 
 jobs:
