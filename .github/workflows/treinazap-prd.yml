@@ -19,7 +19,7 @@ jobs:
       - name: PRINT NOME
         run: echo $NOME
             
-      - uses:actions/setup-node@v1    
+      - uses: actions/setup-node@v1    
         with:
           node-version: 12.21.0
       - name: INSTALL AWS CLIENT
