@@ -14,7 +14,7 @@ jobs:
       - name: set envs agent github actions
         run: doppler secrets download --no-file --format=docker >> $GITHUB_ENV;
         env:
-            DLOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+            DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
             
       - name: PRINT NOME
         run: echo $NOME
