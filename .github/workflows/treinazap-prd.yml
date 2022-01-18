@@ -3,14 +3,12 @@ name: Deploy-TreinzaZAP-PRD PARA S3
 on:
  workflow_dispatch:  
 
-
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: dopplerhq/cli-action@v1
-      - uses: actions/setup-node@v1
       - name: set envs agent github actions
         run: doppler secrets download --no-file --format=docker >> $GITHUB_ENV;
         env:
@@ -20,7 +18,6 @@ jobs:
       - uses: actions/setup-node@v1    
         with:
           node-version: 12.21.0
-          
       - name: SET ENV FIREBASE
         run: envsubst <src/firebase-deploy.js> src/firebase.js
       - name: CHECK FILE
@@ -31,5 +28,6 @@ jobs:
           CI: "false"
       - name: DEPLOY S3
         run: cd build && AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws s3 sync . s3://caetreinazap1 --acl public-read --delete
-        
+      - name: CLEAR CACHE
+        run: AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws cloudfront create-invalidation --distribution-id E28MVO2PK65434 --path '/*'
     
