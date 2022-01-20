@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v1    
         with:
           node-version: 12.21.0
+      - name: ATUALIZA BD
+        run: npx browserslist@latest --update-db
       - name: SET ENV FIREBASE
         run: envsubst <src/firebase-deploy.js> src/firebase.js
       - name: CHECK FILE
