@@ -9,23 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dopplerhq/cli-action@v1
-      - name: set envs agent github actions
-        run: doppler secrets download --no-file --format=docker >> $GITHUB_ENV;
-        env:
-            DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+      #- name: set envs agent github actions
+        #run: doppler secrets download --no-file --format=docker >> $GITHUB_ENV;
+        #env:
+         #   DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
      
      
       - uses: actions/setup-node@v1    
         with:
           node-version: 12.21.0
-      - name: ATUALIZA BD
-        run: npx browserslist@latest --update-db
+      #- name: ATUALIZA BD
+       # run: npx browserslist@latest --update-db
         
       #- name: SET ENV FIREBASE
        # run: envsubst <src/firebase-deploy.js> src/firebase.js
        
-      - name: CHECK FILE
-        run: cat src/firebase.js
+      #- name: CHECK FILE
+      #  run: cat src/firebase.js
       - name: INSTALL AND BUILD
         run: npm install && npm run build
         env:
