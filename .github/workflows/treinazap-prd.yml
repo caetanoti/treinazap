@@ -34,3 +34,8 @@ jobs:
           CI: "false"
       - name: LISTAR ARQUIVOS
         run: ls -la build/*
+        
+        -name: DEPLOY S3
+        run: cd build && AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws s3 sync . s3://caetreinazap1 --acl public-read --delete
+       -name: CLEAR CACHE
+        run: AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws cloudfront create-invalidation --distribution-id E28MVO2PK65434 --path '/*'
