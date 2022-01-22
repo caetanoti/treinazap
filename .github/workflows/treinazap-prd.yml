@@ -14,28 +14,19 @@ jobs:
         env:
            DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
            
-      - name: Print nome
-        run: echo $NOME
-         
+           
       - uses: actions/setup-node@v1    
         with:
-          node-version: 12.21.0
-      #- name: ATUALIZA BD
-       # run: npx browserslist@latest --update-db
-        
+          node-version: 12.21.0        
       - name: SET ENV FIREBASE
         run: envsubst <src/firebase-deploy.js> src/firebase.js
-       
       - name: CHECK FILE
         run: cat src/firebase.js
       - name: INSTALL AND BUILD
         run: npm install && npm run build
         env:
           CI: "false"
-      - name: LISTAR ARQUIVOS
-        run: ls -la build/*
-        
-        -name: DEPLOY S3
+      - name: DEPLOY S3
         run: cd build && AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws s3 sync . s3://caetreinazap1 --acl public-read --delete
-       -name: CLEAR CACHE
+      - name: CLEAR CACHE
         run: AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws cloudfront create-invalidation --distribution-id E28MVO2PK65434 --path '/*'
