@@ -1,0 +1,34 @@
+name: Deploy-TreinzaZAP-PRD PARA ECS
+
+on:
+ workflow_dispatch:  
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dopplerhq/cli-action@v1
+      - name: set envs agent github actions
+        run: doppler secrets download --no-file --format=docker >> $GITHUB_ENV;
+        env:
+           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+           
+           
+      - uses: actions/setup-node@v1    
+        with:
+          node-version: 12.21.0        
+      - name: SET ENV FIREBASE
+        run: envsubst <src/firebase-deploy.js> src/firebase.js
+      - name: CHECK FILE
+        run: cat src/firebase.js
+      - name: INSTALL AND BUILD
+        run: npm install && npm run build
+        env:
+          CI: "false"
+      - name: BAIXANDO SONAR    
+        run: wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip && unzip sonar-scanner-cli-4.6.0.2311-linux.zip   
+      - name: ANALYSYS CODE
+        run: ./sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -Dsonar.projectKey=develop -Dsonar.sources=. -Dsonar.host.url=http://18.228.26.49:9000/ -Dsonar.login=184c15075e92a51dc058f7c8a727418d248927bf      
+      - name: CLEAR CACHE
+        run: AWS_ACCESS_KEY_ID=${ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${SECRET_KEY} aws cloudfront create-invalidation --distribution-id E28MVO2PK65434 --path '/*'
