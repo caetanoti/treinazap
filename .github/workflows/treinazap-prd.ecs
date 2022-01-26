@@ -1,4 +1,4 @@
-name: Deploy-TreinzaZAP-PRD PARA ECS
+name: Deploy-TreinzaZAP-ECS
 
 on:
  workflow_dispatch:  
